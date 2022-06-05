@@ -48,3 +48,7 @@ $ RUST_LOG=trace cargo run --release
 ```
 $ RUST_LOG=trace cargo run --release > log.txt
 ```
+* Run with cargo-make
+```
+$ cargo make --makefile script.toml app
+```

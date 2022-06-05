@@ -1,0 +1,27 @@
+[tasks.run_clean]
+script = "cargo clean"
+
+[tasks.run_fmt]
+script = "cargo fmt"
+
+[tasks.run_test]
+script = "cargo test"
+
+[tasks.init_token]
+script = "export TELOXIDE_TOKEN=5456358556:AAFagw-ccQ-8iE1TGiZYQNnQMMHX1DNFUVk"
+
+[tasks.run_build]
+script = "cargo build --release"
+
+[tasks.run_app]
+script = "RUST_LOG=trace cargo run --release"
+
+[tasks.app]
+dependencies = [
+    "run_clean",
+    "run_fmt",
+    "run_test",
+    "init_token",
+    "run_build",
+    "run_app"
+]

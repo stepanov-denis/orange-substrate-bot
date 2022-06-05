@@ -1,7 +1,7 @@
 pub mod commands_logic {
-    use teloxide::{prelude::*, utils::command::BotCommands};
-    use std::error::Error;
     use env_logger::{Builder, Target};
+    use std::error::Error;
+    use teloxide::{prelude::*, utils::command::BotCommands};
 
     #[tokio::main]
     pub async fn my_commands() {
@@ -37,10 +37,12 @@ pub mod commands_logic {
     ) -> Result<(), Box<dyn Error + Send + Sync>> {
         match command {
             Command::Help => {
-                bot.send_message(message.chat.id, Command::descriptions().to_string()).await?
+                bot.send_message(message.chat.id, Command::descriptions().to_string())
+                    .await?
             }
             Command::Username(username) => {
-                bot.send_message(message.chat.id, format!("Your username is @{username}.")).await?
+                bot.send_message(message.chat.id, format!("Your username is @{username}."))
+                    .await?
             }
             Command::UsernameAndAge { username, age } => {
                 bot.send_message(

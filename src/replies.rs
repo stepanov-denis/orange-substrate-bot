@@ -1,13 +1,13 @@
 pub mod repl_logic {
-    use teloxide::prelude::*;
     use env_logger::{Builder, Target};
+    use teloxide::prelude::*;
 
     #[tokio::main]
     pub async fn dices() {
         // For run with pretty_env_logger in terminal
         // pretty_env_logger::init();
         // log::info!("Starting throw dice bot...");
-        
+
         // For run with env_logger and record logs to file
         let mut builder = Builder::from_default_env();
         builder.target(Target::Stdout);

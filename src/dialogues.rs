@@ -1,6 +1,6 @@
 pub mod dialogues_logic {
-    use teloxide::{dispatching::dialogue::InMemStorage, prelude::*};
     use env_logger::{Builder, Target};
+    use teloxide::{dispatching::dialogue::InMemStorage, prelude::*};
 
     type MyDialogue = Dialogue<State, InMemStorage<State>>;
     type HandlerResult = Result<(), Box<dyn std::error::Error + Send + Sync>>;
@@ -40,7 +40,8 @@ pub mod dialogues_logic {
                 .branch(dptree::case![State::ReceiveFullName].endpoint(receive_full_name))
                 .branch(dptree::case![State::ReceiveAge { full_name }].endpoint(receive_age))
                 .branch(
-                    dptree::case![State::ReceiveLocation { full_name, age }].endpoint(receive_location),
+                    dptree::case![State::ReceiveLocation { full_name, age }]
+                        .endpoint(receive_location),
                 ),
         )
         .dependencies(dptree::deps![InMemStorage::<State>::new()])
@@ -51,7 +52,8 @@ pub mod dialogues_logic {
     }
 
     async fn start(bot: AutoSend<Bot>, msg: Message, dialogue: MyDialogue) -> HandlerResult {
-        bot.send_message(msg.chat.id, "Let's start! What's your full name?").await?;
+        bot.send_message(msg.chat.id, "Let's start! What's your full name?")
+            .await?;
         dialogue.update(State::ReceiveFullName).await?;
         Ok(())
     }
@@ -64,7 +66,11 @@ pub mod dialogues_logic {
         match msg.text() {
             Some(text) => {
                 bot.send_message(msg.chat.id, "How old are you?").await?;
-                dialogue.update(State::ReceiveAge { full_name: text.into() }).await?;
+                dialogue
+                    .update(State::ReceiveAge {
+                        full_name: text.into(),
+                    })
+                    .await?;
             }
             None => {
                 bot.send_message(msg.chat.id, "Send me plain text.").await?;
@@ -82,8 +88,11 @@ pub mod dialogues_logic {
     ) -> HandlerResult {
         match msg.text().map(|text| text.parse::<u8>()) {
             Some(Ok(age)) => {
-                bot.send_message(msg.chat.id, "What's your location?").await?;
-                dialogue.update(State::ReceiveLocation { full_name, age }).await?;
+                bot.send_message(msg.chat.id, "What's your location?")
+                    .await?;
+                dialogue
+                    .update(State::ReceiveLocation { full_name, age })
+                    .await?;
             }
             _ => {
                 bot.send_message(msg.chat.id, "Send me a number.").await?;

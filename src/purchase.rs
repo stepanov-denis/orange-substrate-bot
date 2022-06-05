@@ -1,4 +1,5 @@
 pub mod purchase_logic {
+    use env_logger::{Builder, Target};
     use teloxide::{
         dispatching::{
             dialogue::{self, InMemStorage},
@@ -8,7 +9,6 @@ pub mod purchase_logic {
         types::{InlineKeyboardButton, InlineKeyboardMarkup},
         utils::command::BotCommands,
     };
-    use env_logger::{Builder, Target};
 
     type MyDialogue = Dialogue<State, InMemStorage<State>>;
     type HandlerResult = Result<(), Box<dyn std::error::Error + Send + Sync>>;
@@ -42,7 +42,7 @@ pub mod purchase_logic {
         // For run with pretty_env_logger in terminal
         // pretty_env_logger::init();
         // log::info!("Starting throw dice bot...");
-        
+
         // For run with env_logger and record logs to file
         let mut builder = Builder::from_default_env();
         builder.target(Target::Stdout);
@@ -83,25 +83,31 @@ pub mod purchase_logic {
     }
 
     async fn start(bot: AutoSend<Bot>, msg: Message, dialogue: MyDialogue) -> HandlerResult {
-        bot.send_message(msg.chat.id, "Let's start! What's your full name?").await?;
+        bot.send_message(msg.chat.id, "Let's start! What's your full name?")
+            .await?;
         dialogue.update(State::ReceiveFullName).await?;
         Ok(())
     }
 
     async fn help(bot: AutoSend<Bot>, msg: Message) -> HandlerResult {
-        bot.send_message(msg.chat.id, Command::descriptions().to_string()).await?;
+        bot.send_message(msg.chat.id, Command::descriptions().to_string())
+            .await?;
         Ok(())
     }
 
     async fn cancel(bot: AutoSend<Bot>, msg: Message, dialogue: MyDialogue) -> HandlerResult {
-        bot.send_message(msg.chat.id, "Cancelling the dialogue.").await?;
+        bot.send_message(msg.chat.id, "Cancelling the dialogue.")
+            .await?;
         dialogue.exit().await?;
         Ok(())
     }
 
     async fn invalid_state(bot: AutoSend<Bot>, msg: Message) -> HandlerResult {
-        bot.send_message(msg.chat.id, "Unable to handle the message. Type /help to see the usage.")
-            .await?;
+        bot.send_message(
+            msg.chat.id,
+            "Unable to handle the message. Type /help to see the usage.",
+        )
+        .await?;
         Ok(())
     }
 
@@ -118,10 +124,13 @@ pub mod purchase_logic {
                 bot.send_message(msg.chat.id, "Select a product:")
                     .reply_markup(InlineKeyboardMarkup::new([products]))
                     .await?;
-                dialogue.update(State::ReceiveProductChoice { full_name }).await?;
+                dialogue
+                    .update(State::ReceiveProductChoice { full_name })
+                    .await?;
             }
             None => {
-                bot.send_message(msg.chat.id, "Please, send me your full name.").await?;
+                bot.send_message(msg.chat.id, "Please, send me your full name.")
+                    .await?;
             }
         }
 
