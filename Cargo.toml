@@ -1,0 +1,20 @@
+[package]
+name = "orange-substrate-bot"
+version = "0.1.0"
+edition = "2021"
+authors = ["Stepanov Denis <stepanov.d.m@yandex.ru>"]
+description = "Telegram bot for substrate wallet"
+license = "Apache-2.0"
+repository = "https://github.com/stepanov-denis/orange-substrate-bot/"
+keywords = ["telegram", "bot", "crypto", "substrate"]
+documentation = "https://docs.rs/orange-substrate-bot"
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+teloxide = { version = "0.9", features = ["macros", "auto-send"] }
+log = "0.4"
+pretty_env_logger = "0.4"
+tokio = { version =  "1.8", features = ["rt-multi-thread", "macros"] }
+env_logger = "0.9.0"

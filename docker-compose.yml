@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  app:
+    image: rust:1.61.0
+    restart: always
+    command: sh -c "export TELOXIDE_TOKEN=5456358556:AAFagw-ccQ-8iE1TGiZYQNnQMMHX1DNFUVk && RUST_LOG=trace cargo run --release"
+    working_dir: /app
+    volumes:
+      - ./:/app
