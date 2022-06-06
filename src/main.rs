@@ -1,15 +1,19 @@
+use env_logger::{Builder, Target};
 mod admin;
-mod buttons;
-mod commands;
-mod dialogues;
-mod purchase;
-mod replies;
+mod command;
+mod dispatching_feautures;
+mod shared_state;
+mod transfer;
 
 fn main() {
-    // admin::admin_logic::administration();
-    buttons::buttons_logic::my_button();
-    // commands::commands_logic::my_commands();
-    // dialogues::dialogues_logic::dialog();
-    // purchase::purchase_logic::buy();
-    // replies::repl_logic::dices();
+    // For run with pretty_env_logger in terminal
+    pretty_env_logger::init();
+    log::info!("Starting dialogue bot...");
+
+    // For run with env_logger and record logs to file
+    // let mut builder = Builder::from_default_env();
+    // builder.target(Target::Stdout);
+    // builder.init();
+
+    transfer::send::transaction();
 }

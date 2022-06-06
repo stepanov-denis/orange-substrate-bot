@@ -1,18 +1,18 @@
-pub mod commands_logic {
+pub mod command_logic {
     use env_logger::{Builder, Target};
     use std::error::Error;
     use teloxide::{prelude::*, utils::command::BotCommands};
 
     #[tokio::main]
-    pub async fn my_commands() {
+    pub async fn my_command() {
         // For run with pretty_env_logger in terminal
         // pretty_env_logger::init();
         // log::info!("Starting command bot...");
 
         // For run with env_logger and record logs to file
-        let mut builder = Builder::from_default_env();
-        builder.target(Target::Stdout);
-        builder.init();
+        // let mut builder = Builder::from_default_env();
+        // builder.target(Target::Stdout);
+        // builder.init();
 
         let bot = Bot::from_env().auto_send();
 

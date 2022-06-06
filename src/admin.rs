@@ -56,8 +56,8 @@ pub mod admin_logic {
 
     #[tokio::main]
     pub async fn administration() {
-        pretty_env_logger::init();
-        log::info!("Starting admin bot...");
+        // pretty_env_logger::init();
+        // log::info!("Starting admin bot...");
 
         let bot = teloxide::Bot::from_env().auto_send();
 
