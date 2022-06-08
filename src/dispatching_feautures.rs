@@ -32,7 +32,9 @@ pub mod dispatching {
             .branch(
                 // Filter a maintainer by a used ID.
                 dptree::filter(|msg: Message, cfg: ConfigParameters| {
-                    msg.from().map(|user| user.id == cfg.bot_maintainer).unwrap_or_default()
+                    msg.from()
+                        .map(|user| user.id == cfg.bot_maintainer)
+                        .unwrap_or_default()
                 })
                 .filter_command::<MaintainerCommands>()
                 .endpoint(
@@ -55,7 +57,8 @@ pub mod dispatching {
                     // An endpoint is the last update handler.
                     .endpoint(|msg: Message, bot: AutoSend<Bot>| async move {
                         log::info!("Received a message from a group chat.");
-                        bot.send_message(msg.chat.id, "This is a group chat.").await?;
+                        bot.send_message(msg.chat.id, "This is a group chat.")
+                            .await?;
                         respond(())
                     }),
             )
@@ -131,7 +134,9 @@ pub mod dispatching {
                         MaintainerCommands::descriptions()
                     )
                 } else if msg.chat.is_group() || msg.chat.is_supergroup() {
-                    SimpleCommand::descriptions().username_from_me(&me).to_string()
+                    SimpleCommand::descriptions()
+                        .username_from_me(&me)
+                        .to_string()
                 } else {
                     SimpleCommand::descriptions().to_string()
                 }

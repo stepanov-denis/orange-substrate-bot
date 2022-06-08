@@ -16,12 +16,19 @@ pub mod shared {
         let handler = Update::filter_message().branch(dptree::endpoint(
             |msg: Message, bot: AutoSend<Bot>| async move {
                 let previous = MESSAGES_TOTAL.fetch_add(1, Ordering::Relaxed);
-                bot.send_message(msg.chat.id, format!("I received {previous} messages in total."))
-                    .await?;
+                bot.send_message(
+                    msg.chat.id,
+                    format!("I received {previous} messages in total."),
+                )
+                .await?;
                 respond(())
             },
         ));
 
-        Dispatcher::builder(bot, handler).build().setup_ctrlc_handler().dispatch().await;
+        Dispatcher::builder(bot, handler)
+            .build()
+            .setup_ctrlc_handler()
+            .dispatch()
+            .await;
     }
 }
